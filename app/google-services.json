@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "351072647574",
+    "project_id": "newsline-c1689",
+    "storage_bucket": "newsline-c1689.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351072647574:android:bfd97f6252c81a227e05b7",
+        "android_client_info": {
+          "package_name": "com.dilip.newsline"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkw3HlBcj_VXRK1CXMWKUsw_h8N3Oeatk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
