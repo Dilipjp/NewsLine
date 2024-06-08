@@ -14,7 +14,7 @@
         android:layout_margin="40dp"
         android:orientation="vertical">
         <EditText
-            android:hint="Emaail"
+            android:hint="Email"
             android:id="@+id/editTextEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

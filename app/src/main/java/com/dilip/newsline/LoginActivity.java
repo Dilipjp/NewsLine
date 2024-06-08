@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 }
                                                 spinner.setVisibility(View.GONE);
                                                 Toast.makeText(LoginActivity.this, "Login success", Toast.LENGTH_SHORT).show();
+                                                gotoHome();
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {
                                             @Override
@@ -89,8 +90,13 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void doSignUp(){
+    public void doSignUp(View view){
         Intent intent = new Intent(LoginActivity.this,RegisterActivity.class );
         startActivity(intent);
+    }
+    public void gotoHome(){
+        Intent intent = new Intent(LoginActivity.this,MainActivity.class );
+        startActivity(intent);
+        finish();
     }
 }
