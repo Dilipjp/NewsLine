@@ -1,8 +1,13 @@
 package com.dilip.newsline;
 
+import static android.content.ContentValues.TAG;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -31,13 +36,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
-        if (user != null) {
-            Toast.makeText(this, user.getEmail(), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "your not sign", Toast.LENGTH_SHORT).show();
-        }
+        checkUser();
 
         recyclerView = findViewById(R.id.news_recycler_view);
         progressIndicator = findViewById(R.id.progress_bar);
@@ -60,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupRecyclerView();
         getNews("general");
     }
+
+
 
     void setupRecyclerView(){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -112,5 +116,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Button btn = (Button) view;
         String category = btn.getText().toString();
         getNews(category);
+    }
+
+    public void signOut(View view){
+        auth.signOut();
+    }
+    public void gotoLogin(){
+        Intent intent = new Intent(MainActivity.this,LoginActivity.class );
+        startActivity(intent);
+        finish();
+    }
+    private void checkUser() {
+        auth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() == null){
+                    Log.d(TAG,"user not sign");
+                    gotoLogin();
+                }else {
+                    Log.d(TAG, "user signed: ");
+                }
+            }
+        });
     }
 }

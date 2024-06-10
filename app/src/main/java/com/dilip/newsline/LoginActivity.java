@@ -18,6 +18,9 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -44,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                spinner.setVisibility(View.VISIBLE);
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
 
@@ -52,8 +54,8 @@ public class LoginActivity extends AppCompatActivity {
                     if(Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                         if(!password.isEmpty()){
                             if(password.length() > 5){
-                                auth.signInWithEmailAndPassword(email,password)
-                                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                                spinner.setVisibility(View.VISIBLE);
+                                auth.signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                             @Override
                                             public void onSuccess(AuthResult authResult) {
                                                 FirebaseUser user = auth.getCurrentUser();
@@ -68,8 +70,9 @@ public class LoginActivity extends AppCompatActivity {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
                                                 spinner.setVisibility(View.GONE);
-                                                textViewErrorMessage.setText(e.getMessage().toString());
-                                                Toast.makeText(LoginActivity.this, "Authentication failed." + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                String errorMessage = "Authentication failed: " + e.getLocalizedMessage();
+                                                textViewErrorMessage.setText(errorMessage);
+                                                Toast.makeText(LoginActivity.this, errorMessage + e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }else {

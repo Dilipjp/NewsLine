@@ -17,7 +17,12 @@
         android:textSize="30sp"
         android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/primary" />
-
+    <TextView
+        android:id="@+id/signOut_btn"
+        android:text="Sign Out"
+        android:onClick="signOut"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <HorizontalScrollView
         android:id="@+id/horizontal_btn"
         android:layout_width="match_parent"
