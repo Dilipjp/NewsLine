@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -31,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     NewsRecyclerAdapter adapter;
     LinearProgressIndicator progressIndicator;
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7;
+    SearchView search_bar;
     private FirebaseAuth auth;
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,10 +61,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn5.setOnClickListener(this);
         btn6.setOnClickListener(this);
         btn7.setOnClickListener(this);
+        search_bar = findViewById(R.id.search_bar);
 
 
         setupRecyclerView();
-        getNews("general");
+        getNews("general", null);
+
+        search_bar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                getNews("GENERAL",query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
     }
 
 
@@ -78,13 +97,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             progressIndicator.setVisibility(View.INVISIBLE);
     }
 
-    void getNews(String category){
+    void getNews(String category, String query){
         changeInProgress(true);
         NewsApiClient newsApiClient = new NewsApiClient("9f5d4ef1ea5b44c9bf855efbe62b9fdb");
         newsApiClient.getTopHeadlines(
                new TopHeadlinesRequest.Builder()
                        .language("en")
                        .category(category)
+                       .q(query)
                        .build(),
                new NewsApiClient.ArticlesResponseCallback() {
                    @Override
@@ -115,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Button btn = (Button) view;
         String category = btn.getText().toString();
-        getNews(category);
+        getNews(category, null);
     }
 
     public void signOut(View view){
