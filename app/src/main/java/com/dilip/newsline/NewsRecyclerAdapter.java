@@ -1,8 +1,10 @@
 package com.dilip.newsline;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -33,6 +35,14 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
                 .into(holder.imageView);
+        holder.viewMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(),NewsViewActivity.class);
+                intent.putExtra("url",article.getUrl());
+                view.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -47,6 +57,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
 
     class NewsViewHolder extends RecyclerView.ViewHolder{
         TextView titleTextView, sourceTextView, dateTextView;
+        Button viewMore;
         ImageView imageView;
         public NewsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +65,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             sourceTextView = itemView.findViewById(R.id.article_source);
             dateTextView = itemView.findViewById(R.id.article_publishedAt);
             imageView = itemView.findViewById(R.id.article_image);
+            viewMore = itemView.findViewById(R.id.viewMore_btn);
         }
     }
 }
