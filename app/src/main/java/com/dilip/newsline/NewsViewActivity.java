@@ -2,6 +2,7 @@ package com.dilip.newsline;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,6 +22,7 @@ public class NewsViewActivity extends AppCompatActivity {
         webView.loadUrl(url);
     }
 
+    @SuppressLint("SuspiciousIndentation")
     @Override
     public void onBackPressed() {
         if(webView.canGoBack())
