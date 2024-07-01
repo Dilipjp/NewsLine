@@ -7,22 +7,27 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
     <TextView
-        android:id="@+id/app_title"
+        android:id="@+id/Tv_welcome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
+        android:text="Hi, User name welcome!"
         android:gravity="center"
-        android:layout_marginTop="5dp"
-        android:textSize="30sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="20sp"
         android:fontFamily="sans-serif-smallcaps"
         android:textColor="@color/primary" />
-    <TextView
-        android:id="@+id/signOut_btn"
-        android:text="Sign Out"
-        android:onClick="signOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
+
+
     <HorizontalScrollView
         android:id="@+id/horizontal_btn"
         android:layout_width="match_parent"
@@ -80,7 +85,6 @@
                 android:layout_margin="6dp"
                 android:text="technology"/>
         </LinearLayout>
-
     </HorizontalScrollView>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
