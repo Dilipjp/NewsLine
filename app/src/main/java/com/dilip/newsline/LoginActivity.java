@@ -87,16 +87,20 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                             }else {
                                 editTextPassword.setError("Password should be more than six characters");
+                                editTextPassword.requestFocus();
                             }
                         }else {
                             editTextPassword.setError("Password can't be empty");
+                            editTextPassword.requestFocus();
                         }
                     }else {
                         editTextEmail.setError("Invalid Email");
+                        editTextEmail.requestFocus();
                     }
 
                 }else {
                     editTextEmail.setError("Email can't be empty");
+                    editTextEmail.requestFocus();
                 }
 
             }

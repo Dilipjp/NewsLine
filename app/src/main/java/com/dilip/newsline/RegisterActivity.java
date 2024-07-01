@@ -24,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
     Button register_btn;
-    EditText editTextEmail, editTextPassword, editTextUsername;
+    EditText editTextEmail, editTextPassword, editTextUsername, editTextConfirmPassword;
     TextView textViewErrorMessage, textViewSuccessMessage;
     private ProgressBar spinner;
 
@@ -42,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         editTextUsername = findViewById(R.id.editTextUsername);
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
+        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         textViewErrorMessage = findViewById(R.id.textViewErrorMessage);
         textViewSuccessMessage = findViewById(R.id.textViewSuccessMessage);
 
@@ -60,8 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
         String username = editTextUsername.getText().toString().trim();
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+        String confirmPassword = editTextConfirmPassword.getText().toString().trim();
 
-        if (validateInputs(username, email, password)) {
+        if (validateInputs(username, email, password, confirmPassword)) {
             spinner.setVisibility(View.VISIBLE);
 
             // Create user with email and password
@@ -109,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    private boolean validateInputs(String username, String email, String password) {
+    private boolean validateInputs(String username, String email, String password, String confirmPassword) {
         if (username.isEmpty()) {
             editTextUsername.setError("Username cannot be empty");
             editTextUsername.requestFocus();
@@ -137,6 +139,12 @@ public class RegisterActivity extends AppCompatActivity {
         if (password.length() < 6) {
             editTextPassword.setError("Password should be at least 6 characters long");
             editTextPassword.requestFocus();
+            return false;
+        }
+
+        if (!password.equals(confirmPassword)) {
+            editTextConfirmPassword.setError("Passwords do not match");
+            editTextConfirmPassword.requestFocus();
             return false;
         }
 
