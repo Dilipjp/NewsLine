@@ -38,8 +38,16 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         holder.viewMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(),NewsViewActivity.class);
-                intent.putExtra("url",article.getUrl());
+                Intent intent = new Intent(view.getContext(), NewsViewActivity.class);
+                //author
+                intent.putExtra("source", article.getSource().getName());
+                intent.putExtra("author", article.getAuthor());
+                intent.putExtra("title", article.getTitle());
+                intent.putExtra("description",article.getDescription());
+                intent.putExtra("urlToImage", article.getUrlToImage());
+                intent.putExtra("publishedAt", article.getPublishedAt());
+                intent.putExtra("content", article.getContent());
+
                 view.getContext().startActivity(intent);
             }
         });

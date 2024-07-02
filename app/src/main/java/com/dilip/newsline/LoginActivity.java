@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class LoginActivity extends AppCompatActivity {
     Button login_btn;
     EditText editTextEmail, editTextPassword;
-    TextView textViewErrorMessage,textViewSuccessMessage;
+    TextView textViewErrorMessage,textViewSuccessMessage,textViewForgotPassword;
     private ProgressBar spinner;
 
     private FirebaseAuth auth;
@@ -41,7 +41,17 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         textViewErrorMessage = findViewById(R.id.textViewErrorMessage);
         textViewSuccessMessage = findViewById(R.id.textViewSuccessMessage);
+        textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
         auth = FirebaseAuth.getInstance();
+
+
+        textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
 
         login_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -77,16 +87,20 @@ public class LoginActivity extends AppCompatActivity {
                                         });
                             }else {
                                 editTextPassword.setError("Password should be more than six characters");
+                                editTextPassword.requestFocus();
                             }
                         }else {
                             editTextPassword.setError("Password can't be empty");
+                            editTextPassword.requestFocus();
                         }
                     }else {
                         editTextEmail.setError("Invalid Email");
+                        editTextEmail.requestFocus();
                     }
 
                 }else {
                     editTextEmail.setError("Email can't be empty");
+                    editTextEmail.requestFocus();
                 }
 
             }

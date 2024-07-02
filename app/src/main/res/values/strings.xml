@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">NewsLine</string>
+    <string name="profile_image" />
+    <!-- Custom Toolbar Style -->
+    <style name="CustomToolbarTheme" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+
+    <string name="article_image_desc">Article Image</string>
+    <string name="article_title">Article Title</string>
+    <string name="article_source">Source</string>
+    <string name="article_author">Author</string>
+    <string name="article_description">Description</string>
+    <string name="article_published_at">Published At</string>
+    <string name="article_content_label">Content</string>
+    <string name="article_content">Content of the article goes here...</string>
 </resources>
