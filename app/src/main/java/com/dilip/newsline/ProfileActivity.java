@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser user;
     private ImageView profileImage;
     private TextView profileName, profileEmail;
-    private Button buttonGoback, buttonSignOut, buttonEditProfile;
+    private Button buttonGoback, buttonSignOut, buttonEditProfile,buttonDeleteProfile;
     private DatabaseReference databaseReference;
 
     @Override
@@ -62,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         buttonGoback = findViewById(R.id.button_go_back);
         buttonSignOut = findViewById(R.id.button_sign_out);
         buttonEditProfile = findViewById(R.id.button_edit_profile);
+        buttonDeleteProfile = findViewById(R.id.button_delete_account);
 
         fetchUserProfile();
 
@@ -80,6 +81,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         buttonEditProfile.setOnClickListener(view -> {
             Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent);
+        });
+        buttonDeleteProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, DeleteProfileActivity.class);
             startActivity(intent);
         });
     }
