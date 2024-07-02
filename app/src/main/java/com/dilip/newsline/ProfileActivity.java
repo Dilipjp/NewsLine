@@ -1,13 +1,16 @@
 package com.dilip.newsline;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,17 +31,15 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseUser user;
     private ImageView profileImage;
     private TextView profileName, profileEmail;
-    private Button buttonGoback, buttonSignOut;
+    private Button buttonGoback, buttonSignOut, buttonEditProfile;
     private DatabaseReference databaseReference;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Profile");
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         auth = FirebaseAuth.getInstance();
@@ -60,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileEmail = findViewById(R.id.profile_email);
         buttonGoback = findViewById(R.id.button_go_back);
         buttonSignOut = findViewById(R.id.button_sign_out);
+        buttonEditProfile = findViewById(R.id.button_edit_profile);
 
         fetchUserProfile();
 
@@ -74,6 +76,11 @@ public class ProfileActivity extends AppCompatActivity {
             Intent intent = new Intent(ProfileActivity.this, SignOutActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        buttonEditProfile.setOnClickListener(view -> {
+            Intent intent = new Intent(ProfileActivity.this, EditProfileActivity.class);
+            startActivity(intent);
         });
     }
 

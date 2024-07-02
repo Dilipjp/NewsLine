@@ -5,6 +5,7 @@
     <style name="CustomToolbarTheme" parent="Widget.AppCompat.Toolbar">
         <item name="titleTextColor">@android:color/white</item>
     </style>
+
     <string name="article_image_desc">Article Image</string>
     <string name="article_title">Article Title</string>
     <string name="article_source">Source</string>
