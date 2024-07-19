@@ -1,6 +1,8 @@
 package com.dilip.newsline;
 
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +12,8 @@ public class NewsViewActivity extends AppCompatActivity {
 
     private TextView titleTextView, sourceTextView, authorTextView, descriptionTextView, dateTextView, contentTextView;
     private ImageView imageView;
+    private Button button_submit_comment;
+    private EditText edit_comment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,9 @@ public class NewsViewActivity extends AppCompatActivity {
         dateTextView = findViewById(R.id.article_publishedAt);
         contentTextView = findViewById(R.id.article_content);
         imageView = findViewById(R.id.article_image);
+        //submit comment section
+        button_submit_comment = findViewById(R.id.button_submit_comment);
+        edit_comment = findViewById(R.id.edit_comment);
 
         // Get data from intent
         String title = getIntent().getStringExtra("title");
