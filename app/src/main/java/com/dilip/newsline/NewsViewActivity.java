@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class NewsViewActivity extends AppCompatActivity {
@@ -20,6 +22,7 @@ public class NewsViewActivity extends AppCompatActivity {
     private Button button_submit_comment;
     private EditText editTextComment;
     private FirebaseAuth auth;
+    private DatabaseReference commentsDatabaseReference;;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -37,17 +40,19 @@ public class NewsViewActivity extends AppCompatActivity {
         imageView = findViewById(R.id.article_image);
 
         //submit comment section
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
+
         button_submit_comment = findViewById(R.id.button_submit_comment);
         editTextComment = findViewById(R.id.editTextComment);
 
         button_submit_comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String comment = editTextComment.getText().toString().trim();
-                String userId = auth.getCurrentUser().getUid();
-                String title = getIntent().getStringExtra("title");
-                if(!TextUtils.isEmpty(comment)){
-                    saveComment(comment, userId, title);
+                String commentText = editTextComment.getText().toString().trim();
+                String commentUserId = auth.getCurrentUser().getUid();
+                String commentTitle = getIntent().getStringExtra("title");
+                if(!TextUtils.isEmpty(commentText)){
+                    saveComment(commentTitle, commentText, commentUserId);
                 }else {
                     editTextComment.setError("Comment can't be empty");
                     editTextComment.requestFocus();
@@ -76,7 +81,13 @@ public class NewsViewActivity extends AppCompatActivity {
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
     }
-    private void saveComment(String comment, String userId, String title){
+    private void saveComment(String commentTitle, String commentText, String commentUserId){
         // save comments in db
+       
+
+        Comment comment = new Comment(commentTitle, commentText, commentUserId);
+        commentsDatabaseReference.child(commentTitle).setValue(comment);
+
+
     }
 }

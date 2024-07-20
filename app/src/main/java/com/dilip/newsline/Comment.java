@@ -15,6 +15,8 @@ public class Comment {
         this.commentUserId = commentUserId;
     }
 
+
+
     public String getCommentTitle() {
         return commentTitle;
     }
