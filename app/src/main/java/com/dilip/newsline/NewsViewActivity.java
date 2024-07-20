@@ -8,8 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -83,10 +88,26 @@ public class NewsViewActivity extends AppCompatActivity {
     }
     private void saveComment(String commentTitle, String commentText, String commentUserId){
         // save comments in db
-       
+
+        String commentId = commentsDatabaseReference.push().getKey();
 
         Comment comment = new Comment(commentTitle, commentText, commentUserId);
-        commentsDatabaseReference.child(commentTitle).setValue(comment);
+        if(commentId != null){
+            commentsDatabaseReference.child(commentTitle).child(commentId).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(NewsViewActivity.this, "Comment successfully added", Toast.LENGTH_SHORT).show();
+                    editTextComment.setText("");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(NewsViewActivity.this, "Comment failed", Toast.LENGTH_SHORT).show();
+                    editTextComment.setText("");
+                }
+            });
+        }
+
 
 
     }
