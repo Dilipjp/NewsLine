@@ -64,6 +64,7 @@ public class NewsViewActivity extends AppCompatActivity {
                 }
             }
         });
+        loadComments();
 
         // Get data from intent
         String title = getIntent().getStringExtra("title");
@@ -86,6 +87,9 @@ public class NewsViewActivity extends AppCompatActivity {
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
     }
+
+
+
     private void saveComment(String commentTitle, String commentText, String commentUserId){
         // save comments in db
 
@@ -110,5 +114,7 @@ public class NewsViewActivity extends AppCompatActivity {
 
 
 
+    }
+    private void loadComments() {
     }
 }
