@@ -2,6 +2,7 @@ package com.dilip.newsline;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +40,12 @@ public class NewsViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String comment = editTextComment.getText().toString().trim();
+                if(!TextUtils.isEmpty(comment)){
+                    saveComment(comment);
+                }else {
+                    editTextComment.setError("Comment can't be empty");
+                    editTextComment.requestFocus();
+                }
             }
         });
 
@@ -62,5 +69,8 @@ public class NewsViewActivity extends AppCompatActivity {
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
+    }
+    private void saveComment(String comment){
+        // save comments in db
     }
 }
