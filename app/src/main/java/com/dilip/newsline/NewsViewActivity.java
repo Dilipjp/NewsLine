@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 
 public class NewsViewActivity extends AppCompatActivity {
@@ -17,12 +19,14 @@ public class NewsViewActivity extends AppCompatActivity {
     private ImageView imageView;
     private Button button_submit_comment;
     private EditText editTextComment;
+    private FirebaseAuth auth;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_view);
+        auth = FirebaseAuth.getInstance();
 
         titleTextView = findViewById(R.id.article_title);
         sourceTextView = findViewById(R.id.article_source);
@@ -40,8 +44,10 @@ public class NewsViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String comment = editTextComment.getText().toString().trim();
+                String userId = auth.getCurrentUser().getUid();
+                String title = getIntent().getStringExtra("title");
                 if(!TextUtils.isEmpty(comment)){
-                    saveComment(comment);
+                    saveComment(comment, userId, title);
                 }else {
                     editTextComment.setError("Comment can't be empty");
                     editTextComment.requestFocus();
@@ -70,7 +76,7 @@ public class NewsViewActivity extends AppCompatActivity {
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
     }
-    private void saveComment(String comment){
+    private void saveComment(String comment, String userId, String title){
         // save comments in db
     }
 }
