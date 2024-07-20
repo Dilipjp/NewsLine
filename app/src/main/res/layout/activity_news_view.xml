@@ -92,7 +92,7 @@
 
         <!-- Comment Section -->
         <EditText
-            android:id="@+id/edit_comment"
+            android:id="@+id/editTextComment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Write your comment here..."

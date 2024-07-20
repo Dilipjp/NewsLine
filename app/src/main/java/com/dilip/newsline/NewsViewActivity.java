@@ -1,6 +1,8 @@
 package com.dilip.newsline;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,8 +15,9 @@ public class NewsViewActivity extends AppCompatActivity {
     private TextView titleTextView, sourceTextView, authorTextView, descriptionTextView, dateTextView, contentTextView;
     private ImageView imageView;
     private Button button_submit_comment;
-    private EditText edit_comment;
+    private EditText editTextComment;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +30,17 @@ public class NewsViewActivity extends AppCompatActivity {
         dateTextView = findViewById(R.id.article_publishedAt);
         contentTextView = findViewById(R.id.article_content);
         imageView = findViewById(R.id.article_image);
+
         //submit comment section
         button_submit_comment = findViewById(R.id.button_submit_comment);
-        edit_comment = findViewById(R.id.edit_comment);
+        editTextComment = findViewById(R.id.editTextComment);
+
+        button_submit_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comment = editTextComment.getText().toString().trim();
+            }
+        });
 
         // Get data from intent
         String title = getIntent().getStringExtra("title");
