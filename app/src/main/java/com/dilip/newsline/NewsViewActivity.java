@@ -1,11 +1,18 @@
 package com.dilip.newsline;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 public class NewsViewActivity extends AppCompatActivity {
@@ -13,12 +20,16 @@ public class NewsViewActivity extends AppCompatActivity {
     private TextView titleTextView, sourceTextView, authorTextView, descriptionTextView, dateTextView, contentTextView;
     private ImageView imageView;
     private Button button_submit_comment;
-    private EditText edit_comment;
+    private EditText editTextComment;
+    private FirebaseAuth auth;
+    private DatabaseReference commentsDatabaseReference;;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_view);
+        auth = FirebaseAuth.getInstance();
 
         titleTextView = findViewById(R.id.article_title);
         sourceTextView = findViewById(R.id.article_source);
@@ -27,9 +38,27 @@ public class NewsViewActivity extends AppCompatActivity {
         dateTextView = findViewById(R.id.article_publishedAt);
         contentTextView = findViewById(R.id.article_content);
         imageView = findViewById(R.id.article_image);
+
         //submit comment section
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
+
         button_submit_comment = findViewById(R.id.button_submit_comment);
-        edit_comment = findViewById(R.id.edit_comment);
+        editTextComment = findViewById(R.id.editTextComment);
+
+        button_submit_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String commentText = editTextComment.getText().toString().trim();
+                String commentUserId = auth.getCurrentUser().getUid();
+                String commentTitle = getIntent().getStringExtra("title");
+                if(!TextUtils.isEmpty(commentText)){
+                    saveComment(commentTitle, commentText, commentUserId);
+                }else {
+                    editTextComment.setError("Comment can't be empty");
+                    editTextComment.requestFocus();
+                }
+            }
+        });
 
         // Get data from intent
         String title = getIntent().getStringExtra("title");
@@ -51,5 +80,14 @@ public class NewsViewActivity extends AppCompatActivity {
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
+    }
+    private void saveComment(String commentTitle, String commentText, String commentUserId){
+        // save comments in db
+       
+
+        Comment comment = new Comment(commentTitle, commentText, commentUserId);
+        commentsDatabaseReference.child(commentTitle).setValue(comment);
+
+
     }
 }
