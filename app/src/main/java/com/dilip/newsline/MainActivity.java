@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Article;
+import com.kwabenaberko.newsapilib.models.request.EverythingRequest;
 import com.kwabenaberko.newsapilib.models.request.TopHeadlinesRequest;
 import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 
@@ -112,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         search_bar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                getNews("GENERAL", query);
+               // getNews("GENERAL", query);
+                searchNews(query);
                 return true;
             }
 
@@ -147,6 +149,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new TopHeadlinesRequest.Builder()
                         .language("en")
                         .category(category)
+                        .q(query)
+                        .build(),
+                new NewsApiClient.ArticlesResponseCallback() {
+                    @Override
+                    public void onSuccess(ArticleResponse response) {
+                        runOnUiThread(() -> {
+                            changeInProgress(false);
+                            articleList = response.getArticles();
+                            adapter.updateData(articleList);
+                            adapter.notifyDataSetChanged();
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Throwable throwable) {
+                        Log.i("error", throwable.getMessage());
+                    }
+                }
+        );
+    }
+    void searchNews(String query) {
+        changeInProgress(true);
+        NewsApiClient newsApiClient = new NewsApiClient("9f5d4ef1ea5b44c9bf855efbe62b9fdb");
+        newsApiClient.getEverything(
+                new EverythingRequest.Builder()
+                        .language("en")
                         .q(query)
                         .build(),
                 new NewsApiClient.ArticlesResponseCallback() {
