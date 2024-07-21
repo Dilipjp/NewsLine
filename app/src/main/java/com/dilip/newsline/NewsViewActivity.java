@@ -85,6 +85,9 @@ public class NewsViewActivity extends AppCompatActivity {
         String description = getIntent().getStringExtra("description");
         String date = getIntent().getStringExtra("publishedAt");
         String content = getIntent().getStringExtra("content");
+        if (content != null && content.length() > 200) {
+            content = content.substring(0, 200) + "";
+        }
         String imageUrl = getIntent().getStringExtra("urlToImage");
 
         // Set data to views
