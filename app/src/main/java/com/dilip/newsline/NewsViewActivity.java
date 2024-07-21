@@ -37,7 +37,7 @@ public class NewsViewActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private DatabaseReference commentsDatabaseReference;;
     private List<Comment> comments;
-    private CommentsRecyclerAdapter adapter;
+    private CommentsAdapter adapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,7 +55,7 @@ public class NewsViewActivity extends AppCompatActivity {
         imageView = findViewById(R.id.article_image);
 
         //submit comment section
-        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
 
         button_submit_comment = findViewById(R.id.button_submit_comment);
         editTextComment = findViewById(R.id.editTextComment);
@@ -114,7 +114,7 @@ public class NewsViewActivity extends AppCompatActivity {
 
         Comment comment = new Comment(commentTitle, commentText, commentUserId);
         if(commentId != null){
-            commentsDatabaseReference.child(commentTitle).child(commentId).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+            commentsDatabaseReference.child(commentId).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
                     Toast.makeText(NewsViewActivity.this, "Comment successfully added", Toast.LENGTH_SHORT).show();
@@ -137,9 +137,9 @@ public class NewsViewActivity extends AppCompatActivity {
 //        tvNoData = findViewById(R.id.tvNoData);
         ListView listView = findViewById(R.id.listView);
         comments = new ArrayList<>();
-        adapter = new CommentsRecyclerAdapter(this, comments);
+        adapter = new CommentsAdapter(this, comments);
         listView.setAdapter(adapter);
-        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(getIntent().getStringExtra("title"));
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
         commentsDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -149,7 +149,7 @@ public class NewsViewActivity extends AppCompatActivity {
                         Comment comment = snapshot.getValue(Comment.class);
                         comment.setCommentId(snapshot.getKey());
                         comments.add(comment);
-                        Log.e("NewsView","msg" + snapshot.getKey());
+                        Log.e("NewsView","msg" + comment.getCommentText());
                     }
 //                    tvNoData.setVisibility(View.GONE);
                 } else {

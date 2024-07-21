@@ -8,16 +8,15 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-public class CommentsRecyclerAdapter extends BaseAdapter {
+public class CommentsAdapter extends BaseAdapter {
     private Context context;
     private List<Comment> comments;
     private DatabaseReference commentsDatabaseReference;
 
-    public CommentsRecyclerAdapter(Context context, List<Comment> comments) {
+    public CommentsAdapter(Context context, List<Comment> comments) {
         this.context = context;
         this.comments = comments;
        // commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
