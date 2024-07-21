@@ -3,10 +3,12 @@ package com.dilip.newsline;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +18,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewsViewActivity extends AppCompatActivity {
 
@@ -28,6 +36,8 @@ public class NewsViewActivity extends AppCompatActivity {
     private EditText editTextComment;
     private FirebaseAuth auth;
     private DatabaseReference commentsDatabaseReference;;
+    private List<Comment> comments;
+    private CommentsRecyclerAdapter adapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -116,5 +126,35 @@ public class NewsViewActivity extends AppCompatActivity {
 
     }
     private void loadComments() {
+//        mDatabase = FirebaseDatabase.getInstance().getReference("events");
+//        tvNoData = findViewById(R.id.tvNoData);
+        ListView listView = findViewById(R.id.listView);
+        comments = new ArrayList<>();
+        adapter = new CommentsRecyclerAdapter(this, comments);
+        listView.setAdapter(adapter);
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(getIntent().getStringExtra("title"));
+        commentsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                comments.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Comment comment = snapshot.getValue(Comment.class);
+                        comment.setCommentId(snapshot.getKey());
+                        comments.add(comment);
+                    }
+//                    tvNoData.setVisibility(View.GONE);
+                } else {
+//                    tvNoData.setVisibility(View.VISIBLE);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("AdminActivity", "Database error: " + error.getMessage());
+
+            }
+        });
     }
 }

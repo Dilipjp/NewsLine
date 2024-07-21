@@ -20,7 +20,7 @@ public class CommentsRecyclerAdapter extends BaseAdapter {
     public CommentsRecyclerAdapter(Context context, List<Comment> comments) {
         this.context = context;
         this.comments = comments;
-        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
+       // commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
     }
     @Override
     public int getCount() {
