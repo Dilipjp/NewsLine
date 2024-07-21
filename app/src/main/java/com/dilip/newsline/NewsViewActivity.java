@@ -74,7 +74,7 @@ public class NewsViewActivity extends AppCompatActivity {
                 }
             }
         });
-        loadComments();
+
 
         // Get data from intent
         String title = getIntent().getStringExtra("title");
@@ -97,6 +97,7 @@ public class NewsViewActivity extends AppCompatActivity {
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
+        loadComments();
     }
 
     private String createSlug(String title) {
@@ -106,12 +107,9 @@ public class NewsViewActivity extends AppCompatActivity {
         return slug;
     }
 
-
+    // save comments in db
     private void saveComment(String commentTitle, String commentText, String commentUserId){
-        // save comments in db
-
         String commentId = commentsDatabaseReference.push().getKey();
-
         Comment comment = new Comment(commentTitle, commentText, commentUserId);
         if(commentId != null){
             commentsDatabaseReference.child(commentId).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -133,7 +131,6 @@ public class NewsViewActivity extends AppCompatActivity {
 
     }
     private void loadComments() {
-//        mDatabase = FirebaseDatabase.getInstance().getReference("events");
 //        tvNoData = findViewById(R.id.tvNoData);
         ListView listView = findViewById(R.id.listView);
         comments = new ArrayList<>();
