@@ -3,17 +3,30 @@ package com.dilip.newsline;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewsViewActivity extends AppCompatActivity {
 
@@ -23,6 +36,8 @@ public class NewsViewActivity extends AppCompatActivity {
     private EditText editTextComment;
     private FirebaseAuth auth;
     private DatabaseReference commentsDatabaseReference;;
+    private List<Comment> comments;
+    private CommentsAdapter adapter;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,7 +55,7 @@ public class NewsViewActivity extends AppCompatActivity {
         imageView = findViewById(R.id.article_image);
 
         //submit comment section
-        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments");
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
 
         button_submit_comment = findViewById(R.id.button_submit_comment);
         editTextComment = findViewById(R.id.editTextComment);
@@ -60,8 +75,10 @@ public class NewsViewActivity extends AppCompatActivity {
             }
         });
 
+
         // Get data from intent
         String title = getIntent().getStringExtra("title");
+        String slug = createSlug(title);
         String source = getIntent().getStringExtra("source");
         String author = getIntent().getStringExtra("author");
         String description = getIntent().getStringExtra("description");
@@ -80,14 +97,69 @@ public class NewsViewActivity extends AppCompatActivity {
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
+        loadComments();
     }
+
+    private String createSlug(String title) {
+        String slug = title.toLowerCase();
+        slug = slug.replaceAll("\\s+", "-");
+        slug = slug.replaceAll("[^a-z0-9-]", "");
+        return slug;
+    }
+
+    // save comments in db
     private void saveComment(String commentTitle, String commentText, String commentUserId){
-        // save comments in db
-       
-
+        String commentId = commentsDatabaseReference.push().getKey();
         Comment comment = new Comment(commentTitle, commentText, commentUserId);
-        commentsDatabaseReference.child(commentTitle).setValue(comment);
+        if(commentId != null){
+            commentsDatabaseReference.child(commentId).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Toast.makeText(NewsViewActivity.this, "Comment successfully added", Toast.LENGTH_SHORT).show();
+                    editTextComment.setText("");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(NewsViewActivity.this, "Comment failed", Toast.LENGTH_SHORT).show();
+                    editTextComment.setText("");
+                }
+            });
+        }
 
 
+
+    }
+    private void loadComments() {
+//        tvNoData = findViewById(R.id.tvNoData);
+        ListView listView = findViewById(R.id.listView);
+        comments = new ArrayList<>();
+        adapter = new CommentsAdapter(this, comments);
+        listView.setAdapter(adapter);
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
+        commentsDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                comments.clear();
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Comment comment = snapshot.getValue(Comment.class);
+                        comment.setCommentId(snapshot.getKey());
+                        comments.add(comment);
+                        Log.e("NewsView","msg" + comment.getCommentText());
+                    }
+//                    tvNoData.setVisibility(View.GONE);
+                } else {
+//                    tvNoData.setVisibility(View.VISIBLE);
+                }
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("AdminActivity", "Database error: " + error.getMessage());
+
+            }
+        });
     }
 }

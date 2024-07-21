@@ -1,6 +1,7 @@
 package com.dilip.newsline;
 
 public class Comment {
+    public String commentId;
     public String commentTitle;
     public String commentText;
     public String commentUserId;
@@ -15,7 +16,13 @@ public class Comment {
         this.commentUserId = commentUserId;
     }
 
+    public String getCommentId() {
+        return commentId;
+    }
 
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
 
     public String getCommentTitle() {
         return commentTitle;
