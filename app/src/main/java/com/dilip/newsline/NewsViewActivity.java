@@ -78,6 +78,7 @@ public class NewsViewActivity extends AppCompatActivity {
 
         // Get data from intent
         String title = getIntent().getStringExtra("title");
+        String slug = createSlug(title);
         String source = getIntent().getStringExtra("source");
         String author = getIntent().getStringExtra("author");
         String description = getIntent().getStringExtra("description");
@@ -98,6 +99,12 @@ public class NewsViewActivity extends AppCompatActivity {
                 .into(imageView);
     }
 
+    private String createSlug(String title) {
+        String slug = title.toLowerCase();
+        slug = slug.replaceAll("\\s+", "-");
+        slug = slug.replaceAll("[^a-z0-9-]", "");
+        return slug;
+    }
 
 
     private void saveComment(String commentTitle, String commentText, String commentUserId){
@@ -142,6 +149,7 @@ public class NewsViewActivity extends AppCompatActivity {
                         Comment comment = snapshot.getValue(Comment.class);
                         comment.setCommentId(snapshot.getKey());
                         comments.add(comment);
+                        Log.e("NewsView","msg" + snapshot.getKey());
                     }
 //                    tvNoData.setVisibility(View.GONE);
                 } else {
