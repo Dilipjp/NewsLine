@@ -26,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class NewsViewActivity extends AppCompatActivity {
@@ -152,6 +153,7 @@ public class NewsViewActivity extends AppCompatActivity {
                 } else {
 //                    tvNoData.setVisibility(View.VISIBLE);
                 }
+                Collections.reverse(comments);
                 adapter.notifyDataSetChanged();
             }
 
