@@ -25,7 +25,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class NewsViewActivity extends AppCompatActivity {
@@ -84,6 +88,9 @@ public class NewsViewActivity extends AppCompatActivity {
         String description = getIntent().getStringExtra("description");
         String date = getIntent().getStringExtra("publishedAt");
         String content = getIntent().getStringExtra("content");
+        if (content != null && content.length() > 200) {
+            content = content.substring(0, 200) + "";
+        }
         String imageUrl = getIntent().getStringExtra("urlToImage");
 
         // Set data to views
@@ -91,7 +98,7 @@ public class NewsViewActivity extends AppCompatActivity {
         sourceTextView.setText(source);
         authorTextView.setText(author);
         descriptionTextView.setText(description);
-        dateTextView.setText(date);
+        dateTextView.setText(formatDate(date));
         contentTextView.setText(content);
         Picasso.get().load(imageUrl)
                 .error(R.drawable.no_image)
@@ -105,6 +112,21 @@ public class NewsViewActivity extends AppCompatActivity {
         slug = slug.replaceAll("\\s+", "-");
         slug = slug.replaceAll("[^a-z0-9-]", "");
         return slug;
+    }
+    private String formatDate(String date) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        String outputPattern = "MMM dd, yyyy HH:mm";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        Date parsedDate;
+        String readableDate = null;
+        try {
+            parsedDate = inputFormat.parse(date);
+            readableDate = outputFormat.format(parsedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return readableDate;
     }
 
     // save comments in db
@@ -152,6 +174,7 @@ public class NewsViewActivity extends AppCompatActivity {
                 } else {
 //                    tvNoData.setVisibility(View.VISIBLE);
                 }
+                Collections.reverse(comments);
                 adapter.notifyDataSetChanged();
             }
 

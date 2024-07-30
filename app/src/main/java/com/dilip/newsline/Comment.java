@@ -5,6 +5,8 @@ public class Comment {
     public String commentTitle;
     public String commentText;
     public String commentUserId;
+    public String commentDate;
+
 
 
     public Comment() {
@@ -47,4 +49,7 @@ public class Comment {
     public void setCommentUserId(String commentUserId) {
         this.commentUserId = commentUserId;
     }
+    public String getCommentDate() {return commentDate;}
+
+    public void setCommentDate(String commentDate) {this.commentDate = commentDate;}
 }

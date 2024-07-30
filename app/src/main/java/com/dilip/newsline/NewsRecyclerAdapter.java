@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.kwabenaberko.newsapilib.models.Article;
 import com.squareup.picasso.Picasso;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapter.NewsViewHolder> {
@@ -30,7 +34,7 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
         Article article = articleList.get(position);
         holder.titleTextView.setText(article.getTitle());
         holder.sourceTextView.setText(article.getSource().getName());
-        holder.dateTextView.setText(article.getPublishedAt());
+        holder.dateTextView.setText(formatDate(article.getPublishedAt()));
         Picasso.get().load(article.getUrlToImage())
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
@@ -75,5 +79,20 @@ public class NewsRecyclerAdapter extends RecyclerView.Adapter<NewsRecyclerAdapte
             imageView = itemView.findViewById(R.id.article_image);
             viewMore = itemView.findViewById(R.id.viewMore_btn);
         }
+    }
+    private String formatDate(String date) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+        String outputPattern = "MMM dd, yyyy HH:mm";
+        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+        SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        Date parsedDate;
+        String readableDate = null;
+        try {
+            parsedDate = inputFormat.parse(date);
+            readableDate = outputFormat.format(parsedDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return readableDate;
     }
 }
