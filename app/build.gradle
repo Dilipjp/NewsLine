@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'com.dilip.newsline'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.dilip.newsline"
@@ -42,4 +42,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     implementation 'com.github.KwabenBerko:News-API-Java:1.0.2'
     implementation 'com.squareup.picasso:picasso:2.8'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
+
 }
