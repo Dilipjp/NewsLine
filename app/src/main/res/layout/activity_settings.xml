@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:orientation="vertical"
     tools:context=".SettingsActivity">
-
-
-
 
     <!-- Title -->
     <TextView
@@ -37,9 +33,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:padding="8dp"
         android:layout_below="@id/settingsTitle"
-        android:layout_marginBottom="16dp"
-        android:padding="8dp">
+        android:layout_marginBottom="16dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -54,13 +50,43 @@
             android:id="@+id/switch_dark_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enable Dark Mode"
             android:layout_gravity="center_vertical" />
-
     </LinearLayout>
+
+    <!-- Premium Service Payment Section -->
+    <LinearLayout
+        android:id="@+id/premiumServiceLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_below="@id/darkModeLayout"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Premium Service"
+            android:textSize="18sp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_make_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make Payment"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <!-- Back Button -->
     <Button
         android:id="@+id/btn_back"
-        android:text="Back"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"/>
+
+</RelativeLayout>
