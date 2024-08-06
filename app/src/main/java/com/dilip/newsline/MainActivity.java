@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.action_sign_out:
                 signOut();
                 return true;
+            case R.id.action_settings:
+                settings();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -203,13 +206,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getNews(category, null);
     }
 
-
+    public void settings() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivity(intent);
+        finish();
+    }
     public void signOut() {
         Intent intent = new Intent(MainActivity.this, SignOutActivity.class);
         startActivity(intent);
         finish();
     }
-
     public void profile() {
         Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
         startActivity(intent);
