@@ -16,17 +16,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        // Load payment key from local.properties
-        def localProperties = new Properties()
-        def localPropertiesFile = rootProject.file('local.properties')
-        if (localPropertiesFile.exists()) {
-            localPropertiesFile.withInputStream { stream ->
-                localProperties.load(stream)
-            }
         }
-        buildConfigField "String", "PublishableKey", "\"${localProperties['PublishableKey']}\""
-        buildConfigField "String", "SecretKey", "\"${localProperties['SecretKey']}\""
-    }
 
     buildTypes {
         release {

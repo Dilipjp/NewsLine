@@ -1,6 +1,7 @@
 package com.dilip.newsline;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class NewsViewActivity extends AppCompatActivity {
 
     private TextView titleTextView, sourceTextView, authorTextView, descriptionTextView, dateTextView, contentTextView;
     private ImageView imageView;
-    private Button button_submit_comment;
+    private Button button_submit_comment, button_share;
     private EditText editTextComment;
     private FirebaseAuth auth;
     private DatabaseReference commentsDatabaseReference;;
@@ -58,11 +59,21 @@ public class NewsViewActivity extends AppCompatActivity {
         contentTextView = findViewById(R.id.article_content);
         imageView = findViewById(R.id.article_image);
 
+        // share
+        button_share = findViewById(R.id.button_share);
+        button_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareNewsArticle();
+            }
+        });
+
         //submit comment section
         commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
 
         button_submit_comment = findViewById(R.id.button_submit_comment);
         editTextComment = findViewById(R.id.editTextComment);
+
 
         button_submit_comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,6 +117,8 @@ public class NewsViewActivity extends AppCompatActivity {
                 .into(imageView);
         loadComments();
     }
+
+
 
     private String createSlug(String title) {
         String slug = title.toLowerCase();
@@ -184,5 +197,18 @@ public class NewsViewActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    // share article
+    private void shareNewsArticle() {
+        String shareTitle = getIntent().getStringExtra("title").toString();
+        String shareContent = getIntent().getStringExtra("content").toString();
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this news article");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareTitle + "\n\n" + shareContent);
+
+        startActivity(Intent.createChooser(shareIntent, "Share via"));
     }
 }
