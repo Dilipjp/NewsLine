@@ -1,6 +1,7 @@
 package com.dilip.newsline;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,10 +37,10 @@ public class NewsViewActivity extends AppCompatActivity {
 
     private TextView titleTextView, sourceTextView, authorTextView, descriptionTextView, dateTextView, contentTextView;
     private ImageView imageView;
-    private Button button_submit_comment;
+    private Button buttonSubmitComment, buttonShare;
     private EditText editTextComment;
     private FirebaseAuth auth;
-    private DatabaseReference commentsDatabaseReference;;
+    private DatabaseReference commentsDatabaseReference;
     private List<Comment> comments;
     private CommentsAdapter adapter;
 
@@ -58,43 +59,49 @@ public class NewsViewActivity extends AppCompatActivity {
         contentTextView = findViewById(R.id.article_content);
         imageView = findViewById(R.id.article_image);
 
-        //submit comment section
-        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
+        // Share button
+        buttonShare = findViewById(R.id.button_share);
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                shareNewsArticle();
+            }
+        });
 
-        button_submit_comment = findViewById(R.id.button_submit_comment);
+        // Comment section
+        String articleTitle = getIntent().getStringExtra("title");
+        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(articleTitle));
+
+        buttonSubmitComment = findViewById(R.id.button_submit_comment);
         editTextComment = findViewById(R.id.editTextComment);
 
-        button_submit_comment.setOnClickListener(new View.OnClickListener() {
+        buttonSubmitComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String commentText = editTextComment.getText().toString().trim();
                 String commentUserId = auth.getCurrentUser().getUid();
-                String commentTitle = getIntent().getStringExtra("title");
-                if(!TextUtils.isEmpty(commentText)){
-                    saveComment(commentTitle, commentText, commentUserId);
-                }else {
+                if (!TextUtils.isEmpty(commentText)) {
+                    saveComment(articleTitle, commentText, commentUserId);
+                } else {
                     editTextComment.setError("Comment can't be empty");
                     editTextComment.requestFocus();
                 }
             }
         });
 
-
         // Get data from intent
-        String title = getIntent().getStringExtra("title");
-        String slug = createSlug(title);
         String source = getIntent().getStringExtra("source");
         String author = getIntent().getStringExtra("author");
         String description = getIntent().getStringExtra("description");
         String date = getIntent().getStringExtra("publishedAt");
         String content = getIntent().getStringExtra("content");
         if (content != null && content.length() > 200) {
-            content = content.substring(0, 200) + "";
+            content = content.substring(0, 200) + "...";
         }
         String imageUrl = getIntent().getStringExtra("urlToImage");
 
         // Set data to views
-        titleTextView.setText(title);
+        titleTextView.setText(articleTitle);
         sourceTextView.setText(source);
         authorTextView.setText(author);
         descriptionTextView.setText(description);
@@ -104,6 +111,8 @@ public class NewsViewActivity extends AppCompatActivity {
                 .error(R.drawable.no_image)
                 .placeholder(R.drawable.no_image)
                 .into(imageView);
+
+        // Load comments
         loadComments();
     }
 
@@ -113,6 +122,7 @@ public class NewsViewActivity extends AppCompatActivity {
         slug = slug.replaceAll("[^a-z0-9-]", "");
         return slug;
     }
+
     private String formatDate(String date) {
         String inputPattern = "yyyy-MM-dd'T'HH:mm:ss'Z'";
         String outputPattern = "MMM dd, yyyy HH:mm";
@@ -129,11 +139,10 @@ public class NewsViewActivity extends AppCompatActivity {
         return readableDate;
     }
 
-    // save comments in db
-    private void saveComment(String commentTitle, String commentText, String commentUserId){
+    private void saveComment(String commentTitle, String commentText, String commentUserId) {
         String commentId = commentsDatabaseReference.push().getKey();
         Comment comment = new Comment(commentTitle, commentText, commentUserId);
-        if(commentId != null){
+        if (commentId != null) {
             commentsDatabaseReference.child(commentId).setValue(comment).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void unused) {
@@ -143,22 +152,19 @@ public class NewsViewActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(NewsViewActivity.this, "Comment failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(NewsViewActivity.this, "Failed to add comment", Toast.LENGTH_SHORT).show();
                     editTextComment.setText("");
                 }
             });
         }
-
-
-
     }
+
     private void loadComments() {
-//        tvNoData = findViewById(R.id.tvNoData);
         ListView listView = findViewById(R.id.listView);
         comments = new ArrayList<>();
         adapter = new CommentsAdapter(this, comments);
         listView.setAdapter(adapter);
-        commentsDatabaseReference = FirebaseDatabase.getInstance().getReference("comments").child(createSlug(getIntent().getStringExtra("title")));
+
         commentsDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -166,13 +172,11 @@ public class NewsViewActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Comment comment = snapshot.getValue(Comment.class);
-                        comment.setCommentId(snapshot.getKey());
-                        comments.add(comment);
-                        Log.e("NewsView","msg" + comment.getCommentText());
+                        if (comment != null) {
+                            comment.setCommentId(snapshot.getKey());
+                            comments.add(comment);
+                        }
                     }
-//                    tvNoData.setVisibility(View.GONE);
-                } else {
-//                    tvNoData.setVisibility(View.VISIBLE);
                 }
                 Collections.reverse(comments);
                 adapter.notifyDataSetChanged();
@@ -180,9 +184,20 @@ public class NewsViewActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("AdminActivity", "Database error: " + error.getMessage());
-
+                Log.e("NewsViewActivity", "Database error: " + error.getMessage());
             }
         });
+    }
+
+    private void shareNewsArticle() {
+        String shareTitle = getIntent().getStringExtra("title");
+        String shareContent = getIntent().getStringExtra("content");
+
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Check out this news article");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, shareTitle + "\n\n" + shareContent);
+
+        startActivity(Intent.createChooser(shareIntent, "Share via"));
     }
 }

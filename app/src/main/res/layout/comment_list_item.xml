@@ -3,18 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
+    android:padding="12dp"
     android:background="@drawable/comment_background"
-    android:layout_marginBottom="8dp">
+    android:layout_marginBottom="10dp"
+    android:elevation="2dp"
+    android:backgroundTint="?attr/colorSurface"
+    android:clipToPadding="false"
+    android:layout_gravity="center_vertical">
 
     <!-- Avatar Image -->
     <ImageView
         android:id="@+id/ivAvatar"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="12dp"
         android:src="@drawable/baseline_person_24"
         android:scaleType="centerCrop"
+        android:background="@drawable/avatar_circle"
+        android:padding="4dp"
         android:contentDescription="@string/avatar_image"/>
 
     <!-- Comment Content -->
@@ -32,8 +38,8 @@
             android:text="User Name"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_marginBottom="4dp"/>
+            android:textColor="?attr/colorOnSurface"
+            android:layout_marginBottom="2dp"/>
 
         <!-- Comment Text -->
         <TextView
@@ -42,8 +48,36 @@
             android:layout_height="wrap_content"
             android:text="Comment here"
             android:textSize="16sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="4dp"/>
 
+        <!-- Timestamp -->
+
+    </LinearLayout>
+
+    <!-- Edit and Delete Buttons -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/btnEditComment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/edit_comment"
+            android:src="@drawable/baseline_edit_24"
+            android:layout_marginEnd="8dp"/>
+
+        <ImageButton
+            android:id="@+id/btnDeleteComment"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/delete_comment"
+            android:src="@drawable/baseline_delete_24"/>
     </LinearLayout>
 
 </LinearLayout>

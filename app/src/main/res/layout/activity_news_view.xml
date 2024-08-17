@@ -84,6 +84,16 @@
             android:textSize="16sp"
             tools:text="Article Content" />
 
+        <!-- Share Button -->
+        <Button
+            android:id="@+id/button_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_share"
+            android:layout_gravity="end" />
+
         <!-- Comment Section -->
         <EditText
             android:id="@+id/editTextComment"

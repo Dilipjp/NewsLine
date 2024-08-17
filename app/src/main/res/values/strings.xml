@@ -15,4 +15,6 @@
     <string name="article_content_label">Content</string>
     <string name="article_content">Content of the article goes here...</string>
     <string name="avatar_image">profile image</string>
+    <string name="edit_comment">Edit</string>
+    <string name="delete_comment">Delete</string>
 </resources>
