@@ -164,7 +164,7 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             EphemeralKey = object.getString("id");
-                           // Toast.makeText(SettingsActivity.this, "EphemeralKey:" + EphemeralKey, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(SettingsActivity.this, "EphemeralKey:" + EphemeralKey, Toast.LENGTH_SHORT).show();
                             getClientSecret(CustomerId,EphemeralKey);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -206,7 +206,7 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             ClientSecret = object.getString("client_secret");
-                           // Toast.makeText(SettingsActivity.this, "ClientSecret:" + ClientSecret, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(SettingsActivity.this, "ClientSecret:" + ClientSecret, Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();
