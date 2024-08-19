@@ -37,10 +37,10 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Button btn_back, btn_pay;
+   
 
-
-        String PublishableKey = "xxx";
-    String SecretKey = "xxx";
+//        String PublishableKey = "xxx";
+//    String SecretKey = "xxx";
     String CustomerId;
     String ClientSecret;
     String EphemeralKey;
