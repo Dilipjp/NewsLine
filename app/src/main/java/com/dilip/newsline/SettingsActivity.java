@@ -37,12 +37,10 @@ public class SettingsActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     private Button btn_back, btn_pay;
-    String PublishableKey = "pk_test_51PfoAKLAfwoRb2NavrKQT1unupSMRVxScms6p0av0IftfPS0toxBGk81E7uaA9axqFn9sAxEdcNED8D2WNqzoS9Q00wA8kmOcq";
-    String SecretKey = "sk_test_51PfoAKLAfwoRb2NaSccayOwwtSBqSf2tHO1WRvVOPDoWmClYMTOrjlySejua7OGWJZbUQVCSpC8bfTrJgImm3veK00VckBpYPh";
 
 
-    //    String PublishableKey = "xxx";
-//    String SecretKey = "xxx";
+        String PublishableKey = "xxx";
+    String SecretKey = "xxx";
     String CustomerId;
     String ClientSecret;
     String EphemeralKey;
@@ -164,7 +162,7 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             EphemeralKey = object.getString("id");
-                           // Toast.makeText(SettingsActivity.this, "EphemeralKey:" + EphemeralKey, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(SettingsActivity.this, "EphemeralKey:" + EphemeralKey, Toast.LENGTH_SHORT).show();
                             getClientSecret(CustomerId,EphemeralKey);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -206,7 +204,7 @@ public class SettingsActivity extends AppCompatActivity {
                         try {
                             JSONObject object = new JSONObject(response);
                             ClientSecret = object.getString("client_secret");
-                           // Toast.makeText(SettingsActivity.this, "ClientSecret:" + ClientSecret, Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(SettingsActivity.this, "ClientSecret:" + ClientSecret, Toast.LENGTH_SHORT).show();
 
                         } catch (JSONException e) {
                             e.printStackTrace();

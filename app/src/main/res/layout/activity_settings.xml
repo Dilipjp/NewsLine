@@ -53,6 +53,32 @@
             android:layout_gravity="center_vertical" />
     </LinearLayout>
 
+    <!-- Notification Toggle -->
+    <LinearLayout
+        android:id="@+id/notificationLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:layout_below="@id/darkModeLayout"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enable Notifications"
+            android:textSize="18sp"
+            android:layout_marginEnd="16dp"
+            android:layout_gravity="center_vertical"
+            android:textStyle="bold" />
+
+        <Switch
+            android:id="@+id/switch_notifications"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
     <!-- Premium Service Payment Section -->
     <LinearLayout
         android:id="@+id/premiumServiceLayout"
@@ -60,7 +86,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp"
-        android:layout_below="@id/darkModeLayout"
+        android:layout_below="@id/notificationLayout"
         android:layout_marginBottom="16dp">
 
         <TextView
