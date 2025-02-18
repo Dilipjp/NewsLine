@@ -16,6 +16,8 @@ This app also includes a **dark mode/light mode** toggle for a better user exper
 - 🔒 **Secure Authentication**: Users can log in or sign up using **Firebase Authentication**.
 
 ## Screenshots
+### Login Page
+![Home Page](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_103353.png)
 
 ### Home Page
 ![Home Page](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_103539.png)
@@ -28,6 +30,9 @@ This app also includes a **dark mode/light mode** toggle for a better user exper
 
 ### Dark Mode
 ![Dark Mode](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_120644.png)
+
+### Payment 
+![Payment](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_103820.png)
 
 ## Getting Started
 
