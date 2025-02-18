@@ -18,16 +18,16 @@ This app also includes a **dark mode/light mode** toggle for a better user exper
 ## Screenshots
 
 ### Home Page
-![Home Page](https://github.com/Dilipjp/NewsLine/blob/main/screenshots/home.png)
+![Home Page](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_103539.png)
 
 ### News Articles
-![News Articles](https://github.com/Dilipjp/NewsLine/blob/main/screenshots/articles.png)
+![News Articles](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_103555.png)
 
 ### Article Details
-![Article Details](https://github.com/Dilipjp/NewsLine/blob/main/screenshots/article_details.png)
+![Article Details](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_110937.png)
 
 ### Dark Mode
-![Dark Mode](https://github.com/Dilipjp/NewsLine/blob/main/screenshots/dark_mode.png)
+![Dark Mode](https://github.com/Dilipjp/NewsLine/blob/main/Screenshot_20240819_120644.png)
 
 ## Getting Started
 
