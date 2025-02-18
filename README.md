@@ -57,69 +57,134 @@ Android SDK: For native Android development.
 Dark Mode/Light Mode: Custom theme switcher for user interface customization.
 
 ### Features in Detail
-- **Firebase Authentication**
-Users can log in or register using their email and password.
-Firebase Authentication handles all the security aspects of user authentication.
-- **News API Integration**
-Fetches the latest articles from a variety of trusted news sources.
-Supports search functionality to filter articles by categories or keywords.
-Displays articles with their titles, descriptions, images, and source.
-- **Firebase Realtime Database**
-Saves user data such as:
-Saved favorite articles.
-Comments posted by the user on articles.
-Real-time sync with the database ensures that the data is up-to-date across devices.
-Comments
-Users can comment on articles they read.
-Comments are stored in Firebase Realtime Database and updated in real-time.
-- **Dark Mode / Light Mode**
-Users can switch between Dark Mode and Light Mode in the app’s settings or system-wide settings.
-The app’s UI adapts to the mode for better readability and aesthetics.
-- **Stripe Payment Integration**
-Stripe is integrated for processing payments (for premium features, donations, or subscriptions).
-Users can make payments securely within the app.
-Share News
-Articles can be shared via different social media platforms or messaging apps.
+
+- **Firebase Authentication**  
+  Users can easily log in or register using their email and password. Firebase Authentication ensures secure handling of user credentials, keeping authentication safe and seamless.
+
+- **News API Integration**  
+  Fetch the latest articles from a wide range of trusted news sources. The app supports powerful search functionality to filter articles by categories or keywords, displaying each article with its title, description, images, and source for easy reference.
+
+- **Firebase Realtime Database**  
+  Store and manage user data with Firebase Realtime Database. This includes:  
+  - **Saved Favorite Articles**: Users can bookmark articles to view later.  
+  - **Comments**: Users can leave comments on articles, which are saved in real-time and synced across all devices, ensuring up-to-date information.
+
+- **Dark Mode / Light Mode**  
+  Users can switch between Dark Mode and Light Mode according to their preference. The app’s UI automatically adapts to the selected mode, providing an optimal reading experience in various lighting conditions.
+
+- **Stripe Payment Integration**  
+  Integrated with Stripe to securely process payments for premium features, donations, or subscriptions. Users can conveniently make payments within the app.
+
+- **Share News**  
+  Easily share articles with others via different social media platforms or messaging apps, allowing users to spread important news effortlessly.
+
 ### Mind Map
-Home Page
-│
-├── Latest Headlines
-├── Search Bar
-├── Categories Navigation
-│
-News Article Page
-├── Article Title
-├── Article Content
-├── Author and Source
-├── Comments Section
-├── Share Option
-├── Save Article Button
-│
-User Account
-├── Login/Signup
-├── Profile
-├── Saved Articles
-├── Payment for Premium Features
-│
-Settings
-├── Dark Mode/Light Mode Toggle
-├── Notifications Preferences
+
+The app structure can be visualized as follows:
+
+#### **Home Page**
+- **Latest Headlines**: Display the top news stories.
+- **Search Bar**: Allow users to search for specific articles by keywords or topics.
+- **Categories Navigation**: Provide easy access to different categories of news (e.g., Technology, Politics, Sports).
+
+#### **News Article Page**
+- **Article Title**: Display the title of the selected article.
+- **Article Content**: Show the full content or summary of the article.
+- **Author and Source**: Display the author’s name and the news source.
+- **Comments Section**: Enable users to read, post, and manage comments on the article.
+- **Share Option**: Allow users to share articles via social media or other channels.
+- **Save Article Button**: Enable users to save articles to their favorites list for later reading.
+
+#### **User Account**
+- **Login/Signup**: Secure user authentication for new users and existing members.
+- **Profile**: Display the user’s personal information and settings.
+- **Saved Articles**: Access the list of articles saved by the user for future reference.
+
+
+#### **Settings**
+- **Dark Mode/Light Mode Toggle**: Allow users to switch between dark and light themes based on their preferences.
+- **Payment for Premium Features**: Process payments for premium services or features.
+- **Notifications Preferences**: Let users manage their notification settings for breaking news, updates, and other alerts.
+
 
 
 ### Functional Requirements
-User Registration and Login: Enable users to sign up, log in, and manage their profiles.
-News Display: Fetch and display articles from the News API.
-Search and Filter: Implement search and category filters for news articles.
-Save and Share Articles: Allow users to save their favorite articles and share them on social media.
-Commenting System: Users can comment on articles.
-Dark Mode/Light Mode: Provide a mode toggle for better user experience.
-Payment Integration: Process payments using Stripe for premium features.
+
+The **Functional Requirements** define the specific functionalities that the **NewsLine** app must support to deliver a seamless and user-friendly experience:
+
+1. **User Registration and Login**:
+   - Allow users to register by providing their email and password.
+   - Enable users to securely log in using **Firebase Authentication**.
+   - Provide a seamless sign-up and login flow with email validation and error handling.
+
+2. **News Display**:
+   - Fetch and display the latest news articles from various trusted sources using the **News API**.
+   - Articles should include essential metadata such as titles, descriptions, images, and publication sources.
+
+3. **Search and Filter**:
+   - Implement a **search bar** that allows users to search for articles by keywords, topics, or categories.
+   - Filter news articles based on categories, trending topics, or user preferences.
+
+4. **Save and Share Articles**:
+   - Allow users to **save** articles as favorites for later reading.
+   - Enable users to **share** articles with others via various social media platforms or messaging apps.
+
+5. **Commenting System**:
+   - Provide users with the ability to comment on news articles.
+   - Allow users to view, post, and delete their comments.
+   - Comments should be stored and updated in **Firebase Realtime Database** for real-time synchronization.
+
+6. **Dark Mode/Light Mode**:
+   - Implement a toggle that allows users to switch between **Dark Mode** and **Light Mode**.
+   - The UI should adapt seamlessly to the selected mode to improve readability and user experience.
+
+7. **Payment Integration**:
+   - Integrate **Stripe** for payment processing (for premium features, donations, or subscriptions).
+   - Ensure secure and seamless payment transactions within the app.
+   
+---
+
 ### Non-Functional Requirements
-Performance: Ensure fast loading of articles and smooth user experience even under heavy load.
-Security: Protect user data with Firebase Authentication and secure payment processing via Stripe.
-Scalability: Handle increasing user load and expanding data.
-Accessibility: Ensure the app is accessible to all users.
-Usability: Design an intuitive and easy-to-navigate user interface.
-Compatibility: Ensure compatibility across a wide range of Android devices
+
+The **Non-Functional Requirements** focus on the overall performance, security, and quality of the application:
+
+1. **Performance**:
+   - Ensure fast and responsive loading times for news articles, even with a large amount of data.
+   - Optimize performance to provide a smooth user experience with minimal lag or delays.
+
+2. **Security**:
+   - Utilize **Firebase Authentication** for secure login and user data protection.
+   - Ensure that **Stripe API** transactions are securely processed with end-to-end encryption.
+   - Safeguard user data, including personal details and payment information, by implementing best security practices.
+
+3. **Scalability**:
+   - Design the app to handle increasing numbers of users and news data as the app grows.
+   - Ensure that **Firebase Realtime Database** is capable of scaling as the volume of comments, saved articles, and user interactions increase.
+
+4. **Accessibility**:
+   - Provide a highly **accessible** user interface, ensuring that all elements are usable by people with various disabilities.
+   - Support common accessibility features like screen readers, large text sizes, and high-contrast modes.
+
+5. **Usability**:
+   - Focus on creating an **intuitive** and easy-to-navigate interface.
+   - Minimize the number of steps required for users to access their desired content (articles, saved posts, etc.).
+   - Prioritize user-friendly interactions, ensuring that all buttons, links, and actions are clearly visible and responsive.
+
+6. **Compatibility**:
+   - Ensure that the app is compatible with a wide range of **Android devices**, supporting multiple screen sizes, resolutions, and OS versions.
+   - Test the app on different Android versions (Lollipop and above) to ensure consistent behavior.
+
+7. **Maintainability**:
+   - Write clean, well-documented, and modular code to facilitate future updates and bug fixes.
+   - Use best practices for code versioning and testing to ensure that future developers can easily maintain and enhance the app.
+
+8. **Localization and Internationalization**:
+   - Support multiple languages and regions, providing localized content for a global user base.
+   - Implement a flexible system for managing different language strings and adjusting UI layouts based on language preferences.
+
+9. **Backup and Recovery**:
+   - Ensure that user data (saved articles, comments, preferences) is regularly backed up and can be recovered in case of app failure or crashes.
+   - Implement graceful recovery mechanisms to restore app functionality without losing user data.
+
 
 
